@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+        <record model="ir.ui.view" id="course_list_view">
+            <field name="name">course.list</field>
+            <field name="model">imports.folder</field>
+            <field name="arch" type="xml">
+                <tree string="Form List" default_order="name desc">
+                    <field name="name"/>
+                    <field name="responsible_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="course_form_view">
+            <field name="name">course.form</field>
+            <field name="model">imports.folder</field>
+            <field name="arch" type="xml">
+                <form string="Form Form">
+                    <header>
+                        <field name="state_folder" widget="statusbar"/>  
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="name"/>
+                            <!--<field name="responsible_id"/>-->
+                            <field name="name_folder"/>
+                            <field name="partner_folder"/>
+                            <field name="category_folder"/>
+                            <field name="importacion"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="user_folder"/>
+                            <field name="planned_date_folder"/>
+                            <field name="company_folder"/>
+                        </group>
+                        <notebook>
+                            <page string="Descripción">
+                                <field name="description_folder"/>
+                            </page>
+                            <page string="Ajustes">
+                                <field name="ajustes_folder"/>
+                            </page>
+                            <page string="Items">
+                                <field name="items_folder"/>
+                            </page>
+                           <!-- <page string="Sessions">
+                                <field name="session_ids">
+                                    <tree string="Registered Sessions">
+                                        <field name="name"/>
+                                        <field name="instructor_id"/>
+                                    </tree>
+                                </field>
+                            </page>-->
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="course_search_view">
+            <field name="name">course.search</field>
+            <field name="model">imports.folder</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <!--<filter name="my_courses" string="My Courses"
+                            domain="[('responsible_id', '=', uid)]"/>-->
+
+                    <group string="Group By">
+                        <filter name="by_responsible" string="Responsible"
+                                context="{'group_by': 'responsible_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- window action -->
+        <!--
+            The following tag is an action definition for a "window action",
+            that is an action opening a view or a set of views
+        -->
+        <record model="ir.actions.act_window" id="course_list_action">
+            <field name="name">Ci Form</field>
+            <field name="res_model">imports.folder</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_courses': 1}"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first course
+                </p>
+            </field>
+        </record>
+
+        <!-- top level menu: no parent -->
+        <menuitem id="main_openacademy_menu" name="Open Academy"/>
+        <!-- A first level in the left side menu is needed
+             before using action= attribute -->
+        <menuitem id="openacademy_menu" name="Carpeta de importaciones"
+                  parent="project.menu_main_pm"/>
+        <!-- the following menuitem should appear *after*
+             its parent openacademy_menu and *after* its
+             action course_list_action -->
+        <menuitem id="courses_menu" name="Formulario" parent="openacademy_menu"
+                  action="course_list_action"/>
+        <!-- Full id location:
+             action="imports.folder_list_action"
+             It is not required when it is the same module -->
+
+
+        <!-- session form view -->
+        <record model="ir.ui.view" id="session_form_view">
+            <field name="name">session.form</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <form string="Tarea Form">
+                    <header>
+                        <field name="states" widget="statusbar"/>  
+                    </header>
+                    <sheet>
+                    <button class="oe_stat_button" icon="fa-credit-card" name="10001">
+                    <field widget="statinfo" name="account_move_count" string="Facturas"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-shopping-basket" name="10002">
+                    <field widget="statinfo" name="purchase_order_count" string="Orden de compra"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-rocket" name="10003">     
+                    <field widget="statinfo" name="stock_picking_count" string="Remitos"/>
+                    </button>
+                    <field name="kanban_states" widget="state_selection" class="ml-auto"/>
+                        <group>
+                            <group string="General">
+                                <field name="priority" widget="priority" class="mr-6"/>
+                                <field name="name"/>
+                                <field name="course_id"/>
+                                <field name="user_id"/>
+                                <field name="supplier"/>
+                                <field name="instructor_id"/>
+                                <field name="dispatch" />
+                                <field name="import_license"/>
+                                <field name="currency"/>
+                                <field name="ncm"/>
+                                <field name="shipping" />
+                                <field name="incoterm" />
+                                <field name="total_mercaderia"/>
+                                <field name="total_gastos"/>
+                                <field name="coeff_real"/>
+                                <field name="final_value"/>
+                                <field name="active"/>
+                            </group>
+                            <!--<group string="Schedule">
+                                <field name="start_date"/>
+                                <field name="duration"/>
+                                <field name="seats"/>
+                                <field name="taken_seats" widget="progressbar"/>
+                            </group>-->
+                            <group>
+                                <field name="partner"/>
+                                <field name="planned_date"/>
+                                <field name="date_deadline"/>
+                                <field name="category"/>
+                                <field name="etd"/>
+                                <field name="eta"/>
+                                <field name="closing_date"/>
+                                <field name="needs"/>
+                                <field name="days_folder"/>
+                            </group>    
+                        </group>    
+                       <!--- <label for="attendee_ids"/>
+                        <field name="attendee_ids" widget="many2many_tags"/>-->
+                        <notebook>
+                            <page string="Descripción">
+                                <field name="description"/> 
+                            </page>
+                            <page string="Sub-tarea">
+                            </page>
+                            <page string="Detalle de carga">
+                            </page>
+                            <page string="Fechas">
+                                <group>
+                                    <group>
+                                        <field name="statistics"/>
+                                        <field name="order_sent"/>
+                                        <field name="supp_invoice"/>
+                                        <field name="supp_list"/>
+                                    </group>
+                                    <group>
+                                        <field name="arrived"/>
+                                        <field name="reception_in_logistics"/>
+                                        <field name="payment_mulc"/>
+                                        <field name="date_dispatch"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Costos">
+                                <group>
+                                    <field name="estimated_founds"/>
+                                    <field name="coste_currency"/>
+                                    <field name="expense"/>
+                                    <field name="dispatch_import"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="session_tree_view">
+            <field name="name">session.tree</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <!--<tree string="Session Tree">-->
+                <tree string="Tarea Tree" decoration-bf="duration&lt;5" decoration-it="duration&gt;15">
+                    <field name="name"/>
+                    <field name="course_id"/> 
+                    <field name="duration" invisible="1"/>
+                    <!--<field name="taken_seats" widget="progressbar"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- calendar view -->
+        <record model="ir.ui.view" id="session_calendar_view">
+            <field name="name">session.calendar</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="instructor_id" scales="day,week,month" mode="month">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- gantt view -->
+        <record model="ir.ui.view" id="session_gantt_view">
+            <field name="name">session.gantt</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <gantt string="Session Gantt"
+                       date_start="start_date" date_stop="end_date" color="instructor_id" create="false" edit="false" plan="false" offset="1" 
+                       default_group_by='instructor_id'>
+                </gantt>
+            </field>
+        </record>
+
+        <!-- pivote view -->
+        <record model="ir.ui.view" id="openacademy_session_pivot_view">
+            <field name="name">openacademy.session.pivot</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <pivot string="Participations by Courses">
+                    <field name="course_id"/>
+                    <field name="attendees_count" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <!-- kanban view -->
+        <record model="ir.ui.view" id="view_openacad_session_kanban">
+            <field name="name">openacademy.session.kanban</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="course_id" group_create="false" class="o_kanban_small_column o_kanban_project_tasks" on_create="quick_create" quick_create_view="project.quick_create_task_form" examples="project">
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <i class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                            <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger", "normal": "muted"}'/>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!-- title -->
+                                    Session name:
+                                    <field name="name"/>
+                                    <br/>
+                                    Start date:
+                                    <field name="start_date"/>
+                                    <br/>
+                                    duration:
+                                    <field name="duration"/>
+                                    <br/>
+                                    <field name="priority" widget="priority" class="mr-6"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="session_list_action">
+            <field name="name">Ci Tarea</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_mode">tree,form,calendar,gantt,pivot,kanban</field>
+        </record>
+
+        <menuitem id="session_menu" name="carpeta tarea"
+                  parent="openacademy_menu"
+                  action="session_list_action"/>
+
+        <!--<record model="ir.ui.view" id="wizard_form_view">
+            <field name="name">wizard.form</field>
+            <field name="model">openacademy.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Add Attendees">
+                    <group>
+                        <field name="session_ids"/>
+                        <field name="attendee_ids"/>
+                    </group>
+                    <footer>
+                        <button name="subscribe" type="object"
+                                string="Subscribe" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>-->
+
+        <!--<record id="launch_session_wizard" model="ir.actions.act_window">
+            <field name="name">Add Attendees</field>
+            <field name="res_model">openacademy.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_openacademy_session"/>
+        </record>-->
+</odoo>
