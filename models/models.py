@@ -16,7 +16,7 @@ class Course(models.Model):
 
     name_folder = fields.Char(string='Nombre de la tarea')
     partner_folder = fields.Many2one('res.partner', string='Cliente')
-    category_folder = fields.Many2one(string='Categorias')
+    category_folder = fields.Many2one('project.tags',string='Categorias')
     importacion = fields.Boolean(string='Importacion')
     user_folder = fields.Many2one('res.users', string='Responsable de proyecto')
     planned_date_folder = fields.Datetime(string='Fecha planificada')
@@ -80,7 +80,7 @@ class Session(models.Model):
     partner = fields.Many2one('res.partner', string='Cliente')
     planned_date = fields.Datetime(string='Fecha planificada')
     date_deadline = fields.Date(string='Fecha limite')
-    category = fields.Many2one(string='Categorias')
+    category = fields.Many2one('project.tags',string='Categorias')
     etd = fields.Date(string='ETD')
     eta = fields.Date(string='ETA')
     closing_date = fields.Date(string='Fecha de cierre de importación')
